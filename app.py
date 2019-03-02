@@ -19,11 +19,14 @@ def set_price_range():
 # Search for items within a set price range
 @app.route("/items")
 def select_items(price_range):
+
+
+
     return None
 
 # Build cart from selected items
-@app.route("/cart")
-def build_cart(items):
+@app.route("/order")
+def build_order(items):
     return None
 
 # Finalize purchase with user information
