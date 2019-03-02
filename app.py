@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import requests
+import requests, jsonify
 
 import numpy as np
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
@@ -69,8 +69,9 @@ def select_items(price_range):
     return None
 
 # Build cart from selected items
-@app.route("/cart")
-def build_cart(items):
+@app.route("/order")
+def build_order(items):
+    '''takes a list of product objects'''
     return None
 
 # Finalize purchase with user information
@@ -79,5 +80,5 @@ def commit_purchase():
     return None
 
 if __name__ == "__main__":
-    print(qrng("sim", size=32))
+    #print(qrng("sim", size=32))
     app.run()
