@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests, json
 import random
 import numpy as np
@@ -85,8 +85,8 @@ def get_user_info():
 
 # Get price range from user
 @app.route("/range")
-def set_price_range():
-    return (20, 100, 100)
+def set_price_range(min, bug, max):
+    return (min, bug, max)
 
 # Search for items within a set price range
 @app.route("/items")
@@ -113,7 +113,7 @@ def select_items(price_range,qnum):
             products += res['results']
         except:
             print("caught")
-            continue        
+            continue
 
     spent = 0
     full = False
@@ -153,7 +153,27 @@ def select_items(price_range,qnum):
 def build_order():
 
     user = get_user_info()
-    price_range = set_price_range()
+
+    user['shipping_address']['first_name'] = request.form['firstShip']
+    user['shipping_address']['last_name'] = request.form['lastShip']
+    user['shipping_address']['phone_number'] = request.form['phoneShip']
+    user['shipping_address']['address_line1'] = request.form['shipping1']
+    user['shipping_address']['address_line2'] = request.form['shipping2']
+    user['shipping_address']['zip_code'] = request.form['zipShip']
+    user['shipping_address']['city'] = request.form['cityShip']
+    user['shipping_address']['state'] = request.form['stateShip']
+    user['shipping_address']['country'] = request.form['countryShip']
+
+    user['shipping_address']['last_name'] = request.form['lastShip']
+
+    user['shipping']['payment_method']['name_on_card'] = request.form['credit']
+    user['shipping']['payment_method']['number'] = request.form['creditName']
+    user['shipping']['payment_method']['security_code'] = request.form['creditCode']
+    user['shipping']['payment_method']['expiration_year'] = request.form['expYear']
+    user['shipping']['payment_method']['expiration_month'] = request.form['expMonth']
+
+
+    price_range = set_price_range(request.form['pricemin'], request.form['budget'], request.form['pricemax'])
 
     # Build a list of product-id pairs
     products = []
