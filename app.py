@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import requests, json
-
+import random
 import numpy as np
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
 from qiskit import IBMQ, execute, BasicAer as aer
@@ -81,17 +81,17 @@ def get_user_info():
 # Get price range from user
 @app.route("/range")
 def set_price_range():
-    return (10, 20)
+    return (20, 100, 100)
 
 # Search for items within a set price range
 @app.route("/items")
 def select_items(price_range,qnum):
     crng= random.SystemRandom()
     products = []
-    for i in range (3):
+    for i in range (10):
 
         if(i == 0):
-            xornum = 0;
+            xornum = 0
         else:
             xornum = crng.randint(1, qnum)
         itemnum = qnum ^ xornum
@@ -118,7 +118,7 @@ def select_items(price_range,qnum):
         print (len(priced))
 
         if( price_range[0] > price_range[1] - spent ):
-            break;
+            break
 
         ch = crng.choice(priced)
 
@@ -145,7 +145,7 @@ def build_order():
     # Build a list of product-id pairs
     products = []
     
-    for p in select_items(price_range):
+    for p in select_items(price_range, qrng("sim"))[0]:
         products.append({"product_id": p["product_id"] , "quantity": 1})
 
     user.pop("products", None)
