@@ -164,6 +164,16 @@ def build_order():
     user['shipping_address']['state'] = request.form['stateShip']
     user['shipping_address']['country'] = request.form['countryShip']
 
+    user['billing_address']['first_name'] = request.form['firstBill']
+    user['billing_address']['last_name'] = request.form['lastBill']
+    user['billing_address']['phone_number'] = request.form['phoneBill']
+    user['billing_address']['address_line1'] = request.form['billing1']
+    user['billing_address']['address_line2'] = request.form['billing2']
+    user['billing_address']['zip_code'] = request.form['zipBill']
+    user['billing_address']['city'] = request.form['cityBill']
+    user['billing_address']['state'] = request.form['stateBill']
+    user['billing_address']['country'] = request.form['countryBill']
+
     user['shipping_address']['last_name'] = request.form['lastShip']
 
     user['shipping']['payment_method']['name_on_card'] = request.form['credit']
