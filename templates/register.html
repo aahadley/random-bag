@@ -28,26 +28,34 @@ body{
 
 <div class="w3-row-padding w3-padding-16 w3-center w3-container">
 		<div class="w3-content" style="padding:15px 60px">
+
 			<div style="background-color:lightgrey;">
-<h2>Who are you?</h2>
+<h2>Who are you and where you be?</h2>
 
   <form  action="" method="POST" enctype="multipart/form-data"> 
     <input type="hidden" name="action" value="submit"> 
-   
+
     Your first name:<br> 
     <input name="first" type="text" value="" size="30"/><br> 
 
     Your last name:<br> 
     <input name="last" type="text" value="" size="30"/><br> 
-   
+
     Your email:<br> 
     <input name="email" type="text" value="" size="30"/><br> 
-
-      
     Your Credit Card Number:<br> 
     <input name="credit" value="" size="30"><br>
-   
-    <input type="submit" value="Submit"/> 
+  Name on Credit Card Number:<br> 
+    <input name="creditName" value="" size="30"><br>
+  Credit Card Security Code:<br> 
+    <input name="creditCode" value="" size="30"><br>
+  Expriation Month/Year (03/19):<br> 
+    <input name="exp" value="" size="30"><br>
+  Billing Address:<br> 
+    <input name="credit" value="" size="30"><br>
+  Shipping Address:<br> 
+    <input name="credit" value="" size="30"><br>
+
     </form> 
 
   
@@ -60,13 +68,14 @@ body{
 <label for="price" style="font-family:Roboto;">Budget:</label><br>
 <input type="text" name="budget" placeholder="1"><br>
 
-
 <h2>How did you get here?</h2>
 
 <input type="radio" name="answer">Google<br>
 <input type="radio" name="answer">A friend<br>
 <input type="radio" name="answer">A family member<br>
 <input type="radio" name="answer">I am a photon, I came here randomly<br>
+
+<form action="http://127.0.0.1:5000/cart">
 <input type="submit" value="Submit" class="w3-button w3-blue-grey w3-padding-large w3-large w3-margin-top" class="btn btn-lg btn-success">
 </form>
 </div>
@@ -76,6 +85,4 @@ body{
 </body>
 </center>
 </html> 
-
-
 
