@@ -12,8 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/sheet.css') }}">
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css?family=Roboto:400i" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400i" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
@@ -32,62 +32,62 @@ body{
 			<div style="background-color:lightgrey;">
 <h2>Who are you, where you be, and where is this $#!t gonna go?</h2>
 
-  <form  action="" method="POST" enctype="multipart/form-data"> 
-    <input type="hidden" name="action" value="submit"> 
+  <form  action="" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="submit">
   <h3>Billing Information</h3>
-    First Name (Billing):<br> 
-    <input name="firstBill" type="text" value="" size="30"/><br> 
-    Last Name (Billing):<br> 
+    First Name (Billing):<br>
+    <input name="firstBill" type="text" value="" size="30"/><br>
+    Last Name (Billing):<br>
     <input name="lastBill" type="text" value="" size="30"/><br>
-  Your email:<br> 
-    <input name="email" type="text" value="" size="30"/><br> 
-  Phone number (Billing):<br> 
-    <input name="phone" type="text" value="" size="30"/><br> 
-  Billing Address (line 1):<br> 
+  Your email:<br>
+    <input name="email" type="text" value="" size="30"/><br>
+  Phone number (Billing):<br>
+    <input name="phone" type="text" value="" size="30"/><br>
+  Billing Address (line 1):<br>
     <input name="billing1" value="" size="30"><br>
-  Billing Address (line 2):<br> 
+  Billing Address (line 2):<br>
     <input name="billing2" value="" size="30"><br>
-  Country:<br> 
-    <input name="country" type="text" value="" size="30"/><br> 
-  City:<br> 
-    <input name="city" type="text" value="" size="30"/><br> 
-  State:<br> 
-    <input name="state" type="text" value="" size="30"/><br> 
-  Zip Code:<br> 
-    <input name="zip" type="text" value="" size="30"/><br> 
-    Credit Card Number:<br> 
+  Country:<br>
+    <input name="country" type="text" value="" size="30"/><br>
+  City:<br>
+    <input name="city" type="text" value="" size="30"/><br>
+  State:<br>
+    <input name="state" type="text" value="" size="30"/><br>
+  Zip Code:<br>
+    <input name="zip" type="text" value="" size="30"/><br>
+    Credit Card Number:<br>
     <input name="credit" value="" size="30"><br>
-  Name on Credit Card Number:<br> 
+  Name on Credit Card Number:<br>
     <input name="creditName" value="" size="30"><br>
-  Credit Card Security Code:<br> 
+  Credit Card Security Code:<br>
     <input name="creditCode" value="" size="30"><br>
-  Expriation Month:<br> 
+  Expriation Month:<br>
     <input name="expMonth" value="" size="30"><br>
-  Expriation Year:<br> 
+  Expriation Year:<br>
     <input name="expYear" value="" size="30"><br>
-   
+
   <h3>Shipping Information</h3>
-   First Name (Shipping):<br> 
-    <input name="firstShip" type="text" value="" size="30"/><br> 
-    Last Name (Shipping):<br> 
+   First Name (Shipping):<br>
+    <input name="firstShip" type="text" value="" size="30"/><br>
+    Last Name (Shipping):<br>
     <input name="lastShip" type="text" value="" size="30"/><br>
-  Phone number (Shipping):<br> 
-    <input name="phoneShip" type="text" value="" size="30"/><br> 
-  Shipping Address (line 1):<br> 
+  Phone number (Shipping):<br>
+    <input name="phoneShip" type="text" value="" size="30"/><br>
+  Shipping Address (line 1):<br>
     <input name="shipping1" value="" size="30"><br>
-  Shipping Address (line 2):<br> 
+  Shipping Address (line 2):<br>
     <input name="shipping2" value="" size="30"><br>
-  Country:<br> 
-    <input name="countryShip" type="text" value="" size="30"/><br> 
-  City:<br> 
-    <input name="cityShip" type="text" value="" size="30"/><br> 
-  State:<br> 
-    <input name="stateShip" type="text" value="" size="30"/><br> 
-  Zip Code:<br> 
-  <input name="zipShip" type="text" value="" size="30"/><br> 
-   
-</form> 
-  
+  Country:<br>
+    <input name="countryShip" type="text" value="" size="30"/><br>
+  City:<br>
+    <input name="cityShip" type="text" value="" size="30"/><br>
+  State:<br>
+    <input name="stateShip" type="text" value="" size="30"/><br>
+  Zip Code:<br>
+  <input name="zipShip" type="text" value="" size="30"/><br>
+
+
+
 <h2>What kind of money are you dealing with?</h2>
 
 <label for="price" style="font-family:Roboto;">Maximum Price per item:</label><br>
@@ -107,7 +107,7 @@ body{
 <input type="radio" name="answer">A family member<br>
 <input type="radio" name="answer">I am a photon, I came here randomly<br>
 
-<form action="http://127.0.0.1:5000/cart">
+
 <input type="submit" value="Submit" class="w3-button w3-blue-grey w3-padding-large w3-large w3-margin-top" class="btn btn-lg btn-success">
 </form>
 </div>
@@ -116,7 +116,4 @@ body{
 
 </body>
 </center>
-</html> 
-
-
-
+</html>
