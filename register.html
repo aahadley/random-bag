@@ -1,0 +1,75 @@
+
+
+
+<center>
+<title>Registration</title>
+<h1>Welcome to the Registration Page, Order your S***!</h1>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sheet.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Space-mono">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patua+One">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Space", monospace}
+.w3-bar,h1,button {font-family: "Patua+One", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+
+<p>
+<h2>Who are you and where you be?</h2>
+
+  <form  action="" method="POST" enctype="multipart/form-data"> 
+    <input type="hidden" name="action" value="submit"> 
+   
+    Your first name:<br> 
+    <input name="first" type="text" value="" size="30"/><br> 
+
+    Your last name:<br> 
+    <input name="last" type="text" value="" size="30"/><br> 
+   
+    Your email:<br> 
+    <input name="email" type="text" value="" size="30"/><br> 
+    Your Credit Card Number:<br> 
+    <input name="credit" value="" size="30"><br>
+	Name on Credit Card Number:<br> 
+    <input name="creditName" value="" size="30"><br>
+	Credit Card Security Code:<br> 
+    <input name="creditCode" value="" size="30"><br>
+	Expriation Month/Year (03/19):<br> 
+    <input name="exp" value="" size="30"><br>
+	Billing Address:<br> 
+    <input name="credit" value="" size="30"><br>
+	Shipping Address:<br> 
+    <input name="credit" value="" size="30"><br>
+   
+    </form> 
+
+  
+
+
+<h2>What kind of money are you dealing with?</h2>
+
+<label for="price" style="font-family:Patua+One;">Maximum Price per item:</label><br>
+<input type="text" name="pricemax" placeholder="100,000"><br>
+<label for="price" style="font-family:Patua+One;">Minimum Price per item:</label><br>
+<input type="text" name="pricemin" placeholder="1"><br>
+<label for="price" style="font-family:Patua+One;">Budget:</label><br>
+<input type="text" name="budget" placeholder="1"><br>
+<h4>$0 in both fields gets you a free email from us!</h4><br>
+
+
+
+
+
+<h2>How did you get here?</h2>
+
+<input type="radio" name="answer">Google<br>
+<input type="radio" name="answer">A friend<br>
+<input type="radio" name="answer">My mom, dad, uncle, aunt, or cousin<br>
+<input type="radio" name="answer">I am a photon, I came here randomly<br>
+<input type="submit" value="Submit" class="w3-button w3-dark-grey w3-padding-large w3-large w3-margin-top" class="btn btn-lg btn-success">
+
+
+</p>
+
