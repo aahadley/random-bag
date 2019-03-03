@@ -51,12 +51,26 @@ def qrng(phys_or_sim, size=16, qubits=4, max_credits=3):
         num += i
 
     return int(num, 2)
+from flask import Flask, render_template, redirect, url_for
+import requests
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
     return render_template("index.html")
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
+@app.route("/log")
+def log():
+    return render_template("log.html")
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 @app.route("/info")
 def get_user_info():
@@ -71,13 +85,59 @@ def set_price_range():
 
 # Search for items within a set price range
 @app.route("/items")
-def select_items(price_range):
-    return None
+def select_items(price_range,qnum):
+    crng= random.SystemRandom()
+    products = []
+    for i in range (3):
+
+        if(i == 0):
+            xornum = 0;
+        else:
+            xornum = crng.randint(1, qnum)
+        itemnum = qnum ^ xornum
+
+        url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
+        print(url)
+
+        res = requests.get(url, auth=(zinctoken, '')).json()
+
+        products += res['results']
+
+    spent = 0
+    full = False
+    priced = []
+
+    bought = []
+    for i in products:
+        if( "price" in i):
+            priced.append(i)
+
+    i = 0
+    while len(priced) > 0:
+
+        print (len(priced))
+
+        if( price_range[0] > price_range[1] - spent ):
+            break;
+
+        ch = crng.choice(priced)
+
+
+        if(ch['price']/100 > price_range[1] - spent or ch['price']/100 > price_range[2]):
+            priced.remove(ch)
+            continue
+
+        if( ch['price']/100 > price_range[0] and ch['price']/100 < price_range[2] ):
+            bought.append(ch)
+
+            spent += int(ch['price']/100)
+
+        priced.remove(ch)
+    return (bought , spent)
 
 # Build cart from selected items
 @app.route("/order")
 def build_order():
-    '''takes a list of product objects. No idea if this is even close to right'''
 
     user = get_user_info()
     price_range = set_price_range()
@@ -98,5 +158,4 @@ def build_order():
     return req
 
 if __name__ == "__main__":
-    #print(qrng("sim", size=32))
     app.run()
