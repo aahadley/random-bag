@@ -64,6 +64,10 @@ def main():
 def register():
     return render_template("register.html")
 
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
+
 @app.route("/log")
 def log():
     return render_template("log.html")
