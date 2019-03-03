@@ -80,6 +80,7 @@ def test():
 def get_user_info():
     f = open("default_user.json", "r")
     user = json.load(f)
+    f.close()
     return user
 
 # Get price range from user
@@ -90,22 +91,29 @@ def set_price_range():
 # Search for items within a set price range
 @app.route("/items")
 def select_items(price_range,qnum):
-    crng= random.SystemRandom()
+    crng= random.Random()
     products = []
-    for i in range (10):
-
+    for i in range (2):
+        print("top")
         if(i == 0):
             xornum = 0
         else:
             xornum = crng.randint(1, qnum)
-        itemnum = qnum ^ xornum
+        itemnum = qnum
 
+        print("after if")
         url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
         print(url)
 
-        res = requests.get(url, auth=(zinctoken, '')).json()
 
-        products += res['results']
+        res = requests.get(url, auth=(zinctoken, '')).json()
+        #print(res)
+
+        try:
+            products += res['results']
+        except:
+            print("caught")
+            continue        
 
     spent = 0
     full = False
@@ -137,10 +145,11 @@ def select_items(price_range,qnum):
             spent += int(ch['price']/100)
 
         priced.remove(ch)
+        print(bought)
     return (bought , spent)
 
 # Build cart from selected items
-@app.route("/order")
+@app.route("/order", methods=["POST"])
 def build_order():
 
     user = get_user_info()
