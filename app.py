@@ -64,19 +64,19 @@ def get_user_info():
 # Get price range from user
 @app.route("/range")
 def set_price_range():
-    return (10, 500, 200)
+    return (0,1000,1000)
 
 # Search for items within a set price range
 @app.route("/items")
 def select_items(price_range,qnum):
     crng= random.SystemRandom()
     products = []
-    for i in range (3):
+    for i in range (6):
 
         if(i == 0):
-            xornum = 0;
+            xornum = 0
         else:
-            xornum = crng.randint(1, qnum)
+            xornum = crng.randint(1, 65000)
         itemnum = qnum ^ xornum
 
         url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
