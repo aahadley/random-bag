@@ -1,22 +1,28 @@
 from flask import Flask, render_template, request
 import requests, json
-import random
+import random, time
 import numpy as np
 from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
 from qiskit import IBMQ, execute, BasicAer as aer
 from qiskit.tools.monitor import job_monitor
 from qiskit.providers.ibmq import least_busy
 
+from requests.auth import HTTPBasicAuth
+
 ###
-zinctoken = "09EC5307D55F0123E02A2BAB"
+with open("zinctoken.txt", "r") as z:
+    zinctoken = z.read()
+    print(zinctoken)
 ###
+
+app = Flask(__name__)
 
 def qrng(phys_or_sim, size=16, qubits=4, max_credits=3):
     '''Return a random size bit integer'''
 
     if phys_or_sim in ['p', "phys", "physical"]:
         IBMQ.load_accounts()
-        large_enough_devices = IBMQ.backends(filters=lambda x: x.configuration().n_qubits >= 4 and not x.configuration().simulator)
+        large_enough_devices = IBMQ.backends(filters=lambda x: x.configuration().n_qubits >= qubits and not x.configuration().simulator)
         backend = least_busy(large_enough_devices)
         #print("Selected", backend.name())
 
@@ -51,10 +57,6 @@ def qrng(phys_or_sim, size=16, qubits=4, max_credits=3):
         num += i
 
     return int(num, 2)
-from flask import Flask, render_template, redirect, url_for
-import requests
-
-app = Flask(__name__)
 
 @app.route("/")
 def main():
@@ -91,30 +93,43 @@ def set_price_range(min, bug, max):
 # Search for items within a set price range
 @app.route("/items")
 def select_items(price_range,qnum):
-    crng= random.Random()
+    queries = 4
     products = []
-    for i in range (2):
-        print("top")
-        if(i == 0):
-            xornum = 0
-        else:
-            xornum = crng.randint(1, qnum)
-        itemnum = qnum
 
-        print("after if")
-        url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
-        print(url)
+    flag = 0
+    while flag <= queries:
+        for i in range (queries):
+            #print("top")
 
+            if(i == 0):
+                xornum = 0
+            else:
+                xornum = random.randint(1, 100000)
 
-        res = requests.get(url, auth=(zinctoken, '')).json()
-        #print(res)
+            itemnum = (qnum ^ xornum) % 100000
 
-        try:
-            products += res['results']
-        except:
-            print("caught")
-            continue
+            #print("after if")
+            url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
+            #print(url)
 
+            try:
+                res = requests.get(url, auth=HTTPBasicAuth('09EC5307D55F0123E02A2BAB', ''), timeout=6)            
+            except requests.exceptions.RequestException as e:
+                print("Still thinkin' hang in there", e)
+                continue    
+
+            res = res.json() 
+            #print(type(res), res.text, sep='\n')
+            #print(res)
+
+            try:
+                products += res['results']        
+            except KeyError:   
+                print("caught key error")         
+                continue
+
+            flag += 1 
+                
     spent = 0
     full = False
     priced = []
@@ -127,13 +142,12 @@ def select_items(price_range,qnum):
     i = 0
     while len(priced) > 0:
 
-        print (len(priced))
+        #print (len(priced))
 
         if( price_range[0] > price_range[1] - spent ):
             break
 
-        ch = crng.choice(priced)
-
+        ch = random.choice(priced)
 
         if(ch['price']/100 > price_range[1] - spent or ch['price']/100 > price_range[2]):
             priced.remove(ch)
@@ -149,11 +163,12 @@ def select_items(price_range,qnum):
     return (bought , spent)
 
 # Build cart from selected items
-@app.route("/order", methods=["POST"])
+@app.route("/order", methods=["POST", "GET"])
 def build_order():
 
     user = get_user_info()
 
+    '''
     user['shipping_address']['first_name'] = request.form['firstShip']
     user['shipping_address']['last_name'] = request.form['lastShip']
     user['shipping_address']['phone_number'] = request.form['phoneShip']
@@ -181,9 +196,9 @@ def build_order():
     user['shipping']['payment_method']['security_code'] = request.form['creditCode']
     user['shipping']['payment_method']['expiration_year'] = request.form['expYear']
     user['shipping']['payment_method']['expiration_month'] = request.form['expMonth']
+    '''
 
-
-    price_range = set_price_range(request.form['pricemin'], request.form['budget'], request.form['pricemax'])
+    price_range = set_price_range(int(request.form['pricemin']), int(request.form['budget']), int(request.form['pricemax']))
 
     # Build a list of product-id pairs
     products = []
@@ -197,7 +212,7 @@ def build_order():
     user["products"] = products
 
     req = requests.post("https://api.zinc.io/v1/orders", auth=(zinctoken, ''), data=json.dumps(user) ).text
-    print(req) # for debugging
+    #print(req) # for debugging
     return req
 
 if __name__ == "__main__":
