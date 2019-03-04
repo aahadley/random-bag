@@ -97,16 +97,16 @@ def select_items(price_range,qnum):
     products = []
 
     flag = 0
-    while flag <= queries:
+    while flag < queries:
         for i in range (queries):
             #print("top")
 
             if(i == 0):
                 xornum = 0
             else:
-                xornum = random.randint(1, 100000)
+                xornum = random.randint(1, 10000)
 
-            itemnum = (qnum ^ xornum) % 100000
+            itemnum = (qnum ^ xornum) % 10000
 
             #print("after if")
             url = "https://api.zinc.io/v1/search?query={}&page=1&retailer=amazon".format(itemnum)
@@ -198,12 +198,13 @@ def build_order():
     user['shipping']['payment_method']['expiration_month'] = request.form['expMonth']
     '''
 
-    price_range = set_price_range(int(request.form['pricemin']), int(request.form['budget']), int(request.form['pricemax']))
+    price_range = set_price_range(int(request.form['pricemin']), int(request.form['budget']), int(request.form['pricemax'])) 
 
     # Build a list of product-id pairs
     products = []
+    p_list = select_items(price_range, qrng("sim"))[0]
 
-    for p in select_items(price_range, qrng("sim"))[0]:
+    for p in p_list:
         products.append({"product_id": p["product_id"] , "quantity": 1})
 
     user.pop("products", None)
@@ -213,7 +214,8 @@ def build_order():
 
     req = requests.post("https://api.zinc.io/v1/orders", auth=(zinctoken, ''), data=json.dumps(user) ).text
     #print(req) # for debugging
-    return req
 
+    return str([p["title"] + p["image"] for p in p_list])
+    
 if __name__ == "__main__":
     app.run()
